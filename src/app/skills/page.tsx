@@ -3,76 +3,96 @@
 import GlassCard from "@/components/GlassCard";
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import { useEffect, useRef } from "react";
-import {
-    Code2,
-    Server,
-    Database,
-    Globe,
-    Smartphone,
-    Github,
-    GitBranch,
-    Cpu,
-    Monitor,
-    Layers,
-    Wind,
-    Box,
-    Coffee,
-    Search,
-    Code,
-    Smartphone as Mobile
-} from "lucide-react";
+import { Sparkles } from "lucide-react";
 
-// Custom SVG Icons for technologies not in Lucide
-const NodeJsIcon = () => (
-    <svg viewBox="0 0 24 24" className="w-8 h-8 fill-green-500">
-        <path d="M12 2L4.5 6.25v9.5L12 20l7.5-4.25v-9.5L12 2zM10.5 15.5H9v-7h1.5v7zm4.5 0h-3v-7h1.5v5.5h1.5v-5.5h1.5v7z" />
-    </svg>
-);
+// 100% Correct Branded SVGs (Sourced for maximum contrast and quality)
+const TechLogos = {
+    Nextjs: () => (
+        <svg viewBox="0 0 128 128" className="w-8 h-8 fill-white">
+            <path d="M64 0C28.7 0 0 28.7 0 64s28.7 64 64 64c11.2 0 21.7-2.9 30.8-7.9L48.4 55.3v36.6h-9.5V36.1h9.5l50.2 65.4c8.5-10.7 13.6-24.3 13.6-39.1C128 28.7 99.3 0 64 0zm31.1 44.1v-8h-11.2V28h22.4v8.1h-11.2v8h11.2v8h-11.2v81.6h-9.5V44.1h11.2v-8h-11.2z" />
+        </svg>
+    ),
+    React: () => (
+        <svg viewBox="-11.5 -10.232 23 20.464" className="w-8 h-8">
+            <circle cx="0" cy="0" r="2.05" fill="#61DAFB" />
+            <g fill="none" stroke="#61DAFB" strokeWidth="1">
+                <ellipse rx="11" ry="4.2" />
+                <ellipse rx="11" ry="4.2" transform="rotate(60)" />
+                <ellipse rx="11" ry="4.2" transform="rotate(120)" />
+            </g>
+        </svg>
+    ),
+    Nodejs: () => (
+        <svg viewBox="0 0 256 256" className="w-8 h-8">
+            <path fill="#339933" d="M128 0L24.8 60v120l103.2 60 103.2-60V60L128 0zm88.4 170.1l-88.4 51.4-88.4-51.4v-103l88.4-51.4 88.4 51.4v103z" />
+            <path fill="#339933" d="M128 47.1l-69.1 40.2v80.4l69.1 40.2 69.1-40.2V87.3L128 47.1zm52.7 114.7l-52.7 30.7-52.7-30.7V91.6l52.7-30.7 52.7 30.7v70.2z" />
+        </svg>
+    ),
+    MongoDB: () => (
+        <svg viewBox="0 0 256 256" className="w-8 h-8">
+            <path fill="#47A248" d="M174.1 123.6c-4.3-15.5-14.9-29.2-30.3-38.6-4.5-2.8-9.3-5-14.4-6.8l2.6-13.3c.7-3.4-1.6-6.6-4.9-7.3-3.4-.7-6.6 1.6-7.3 4.9l-2.6 13.3c-1.2.1-2.4.3-3.6.5l-3.2-16.5c-.7-3.4-3.9-5.6-7.3-4.9-3.4.7-5.6 3.9-4.9 7.3l3.2 16.5c-4.8 1.4-9.3 3.3-13.6 5.6-15.4 8.2-26.8 21-32.2 35.8-6 16.3-5.2 34 2.2 49 11.2 22.8 34.6 37.1 59.8 37.1 25.2 0 48.6-14.3 59.8-37.1 7.4-15 8.2-32.7 2.2-49zM128 190.4c-25.1 0-45.4-20.3-45.4-45.4s20.3-45.4 45.4-45.4 45.4 20.3 45.4 45.4-20.3 45.4-45.4 45.4z" />
+        </svg>
+    ),
+    Express: () => (
+        <div className="text-3xl font-black font-mono tracking-tighter text-white">ex</div>
+    ),
+    JavaScript: () => (
+        <svg viewBox="0 0 256 256" className="w-8 h-8 rounded-lg overflow-hidden">
+            <path fill="#F7DF1E" d="M0 0h256v256H0z" />
+            <path d="M193.3 194.5c0 10.3-5.7 18.6-16.1 18.6-8.5 0-14.5-4.2-17.7-10l15.5-8.9c2 3.5 4 5.9 7 5.9 3 0 4.6-1.4 4.6-3.4 0-2.4-1.8-3.3-6.1-5.1l-5.3-2.3c-9.5-4.1-15.8-9.4-15.8-19.1 0-9 6.8-17.6 17-17.6 9.1 0 14.8 3.9 18.1 9l-13.8 8.8c-1.8-3-3.6-4.8-6.1-4.8-2.6 0-3.8 1.5-3.8 3.3 0 2.2 1.6 3 5.3 4.6l5.3 2.3c11.1 4.7 18 10.4 18 20.7zM116 213.1c-15.1 0-24.8-8.2-24.8-23.7V112h17.9v77.3c0 6.6 3.4 9.9 10 9.9 1.6 0 3-.2 4.1-.5v13.9c-2 .3-4.5.5-7.2.5z" />
+        </svg>
+    ),
+    TypeScript: () => (
+        <svg viewBox="0 0 256 256" className="w-8 h-8 rounded-lg overflow-hidden">
+            <path fill="#3178C6" d="M0 0h256v256H0z" />
+            <path fill="#FFF" d="M188 194.5c0 10.3-5.7 18.6-16.1 18.6-8.5 0-14.5-4.2-17.7-10l15.5-8.9c2 3.5 4 5.9 7 5.9 3 0 4.6-1.4 4.6-3.4 0-2.4-1.8-3.3-6.1-5.1l-5.3-2.3c-9.5-4.1-15.8-9.4-15.8-19.1 0-9 6.8-17.6 17-17.6 9.1 0 14.8 3.9 18.1 9l-13.8 8.8c-1.8-3-3.6-4.8-6.1-4.8-2.6 0-3.8 1.5-3.8 3.3 0 2.2 1.6 3 5.3 4.6l5.3 2.3c11.1 4.7 18 10.4 18 20.7zM69 112h51v14H95v77H81v-77H69v-14z" />
+        </svg>
+    ),
+    Tailwind: () => (
+        <svg viewBox="0 0 256 153.6" className="w-8 h-8 fill-[#38BDF8]">
+            <path d="M128 41C102.4 41 86.4 53.8 80 79.4c9.6-12.8 20.8-17.6 33.6-14.4 7.3 1.8 12.5 7.1 18.3 13 9.4 9.6 20.3 20.6 44.1 20.6 25.6 0 41.6-12.8 48-38.4-9.6 12.8-20.8 17.6-33.6 14.4-7.3-1.8-12.5-7.1-18.3-13C162.7 51.9 151.7 41 128 41zM80 98.6C54.4 98.6 38.4 111.4 32 137c9.6-12.8 20.8-17.6 33.6-14.4 7.3 1.8 12.5 7.1 18.3 13 9.4 9.6 20.3 20.6 44.1 20.6 25.6 0 41.6-12.8 48-38.4-9.6 12.8-20.8 17.6-33.6 14.4-7.3-1.8-12.5-7.1-18.3-13C114.7 109.5 103.7 98.6 80 98.6z" />
+        </svg>
+    ),
+    Python: () => (
+        <svg viewBox="0 0 256 256" className="w-8 h-8">
+            <path d="M127.1 0C116.3 0 106.3.3 97 1c-4.4.3-11.4 1.2-16 2.3-17.1 3.9-24.9 10.1-24.9 20.5v16.1h35.3v4.6H54.3C40.6 44.5 28.5 53 23.3 64.6c-5.2 11.6-5.2 24.5-5.2 38.6v34c0 14.1 0 27 5.2 38.6 5.2 11.6 17.3 20.1 31 20.1h15.7v-22.3c0-14.7 12.1-26.8 26.8-26.8h46.6c14.7 0 26.8 12.1 26.8 26.8v64.6c0 14.7-12.1 34.2-26.8 34.2H97c-14.7 0-26.8-9.4-26.8-23.3v-2.3h15.7v2.3c0 6.6 5.4 11.2 11.2 11.2h46.6c5.8 0 11.2-4.6 11.2-11.2v-64.6c0-6.6-5.4-11.2-11.2-11.2H97c-5.8 0-11.2 4.6-11.2 11.2v22.3H68.9V91.6c0-11.2 9-20.1 20.1-20.1H167c11.2 0 20.1 9 20.1 20.1v64.6c0 11.2-9 20.1-20.1 20.1h-11.2l-15.7 20.5v4.6h35.3c14.1 0 27-5.2 38.6-5.2 11.6-5.2 20.1-17.3 20.1-31V91.6c0-14.1 0-27-5.2-38.6C244 41.3 231.9 32.8 218.2 32.8h-35.3V1c-10.3-.7-20.3-1-31.1-1h-24.7z" fill="#3776AB" />
+            <path d="M102.2 21.6c-4.1 0-7.3 3.3-7.3 7.3 0 4.1 3.3 7.3 7.3 7.3a7.33 7.33 0 0 0 7.3-7.3c0-4-3.3-7.3-7.3-7.3zm51.4 205.2c-4.1 0-7.3 3.3-7.3 7.3 0 4.1 3.3 7.3 7.3 7.3s7.3-3.3 7.3-7.3c0-4-3.3-7.3-7.3-7.3z" fill="#FFD43B" />
+        </svg>
+    ),
+    Java: () => (
+        <svg viewBox="0 0 256 256" className="w-8 h-8">
+            <path d="M78.6 195.3c-20.1 5.3-43.1 9.9-43.1 22.3 0 9.7 13.9 14.7 30.6 14.7 19.3 0 47.9-6.3 71.4-12.6l4.6-1.3c21.2-5.7 44.5-12.1 44.5-24 0-11.6-13.6-17.1-30.7-17.1-18.7 0-47.5 7-70.5 13l-6.8 5z" fill="#E76F00" />
+            <path d="M125.8 43.1C187.9-10.3 54.3-15.2 113.8 55.4c4.6 5.5 10 10.9 16 16.3 43.1 38.1 49.3 58.7 54.3 84.1-10.4 12.8-27.1 19.5-44.4 19.5-23.7 0-41.5-13.4-45-18.7l-9.5-13.5c-4.6-6.4-9.3-12.9-14.4-19.1-38.1-43.9-3.4-56.7 15-80.9zm27.4 67c13.2-13.3 22.6-30.4 27.6-50.5-5.4 10.6-10.7 21.5-17.1 30.7 13.1-23.7 22-54.7 12.1-80.3-6.2 36.8-43.3 64.9-22.6 100.1z" fill="#5382A1" />
+        </svg>
+    ),
+    Postman: () => (
+        <svg viewBox="0 0 256 256" className="w-8 h-8">
+            <path fill="#FF6C37" d="M128 0C57.3 0 0 57.3 0 128s57.3 128 128 128 128-57.3 128-128S198.7 0 128 0zm68 135c0 10.5-8.5 19-19 19H81.4l24.4 24.4c7.4 7.4 7.4 19.5 0 26.9s-19.5 7.4-26.9 0l-57.2-57.2c-7.4-7.4-7.4-19.5 0-26.9l57.2-57.2a19.04 19.04 0 0 1 26.9 26.9L81.4 116h95.6c10.5 0 19 8.5 19 19z" />
+        </svg>
+    ),
+};
 
-const ExpressIcon = () => (
-    <div className="text-2xl font-bold font-mono tracking-tighter">ex</div>
-);
-
-const MongoDBIcon = () => (
-    <svg viewBox="0 0 24 24" className="w-8 h-8 fill-green-600">
-        <path d="M17.193 11.232c-.116-.14-.247-.404-.325-.572-.25-.536-.39-1.096-.453-1.68-.035-.355-.035-.71 0-1.066.027-.246.067-.492.12-.734.01-.06.014-.123.016-.184l.004-.15-.05-.078c-.24-.378-.458-.77-.655-1.173-.016-.03-.03-.062-.047-.093l-.06-.118c-.022-.04-.04-.085-.06-.128-.2-.423-.374-.86-.522-1.306-.04-.12-.08-.24-.12-.36l-.08-.242c-.014-.045-.03-.09-.043-.135C14.15 1.576 13.17 0 11.968 0c-1.2 0-2.18 1.576-2.91 3.23-.014.045-.03.09-.044.135l-.08.243c-.04.12-.08.24-.12.36-.148.446-.322.883-.522 1.306-.02.043-.037.087-.06.128l-.06.118c-.016.03-.032.063-.047.093-.2.404-.416.795-.656 1.173l-.048.078-.006.15c0 .06.006.124.016.184.053.242.093.488.12.734.035.356.035.71 0 1.066-.062.584-.202 1.144-.452 1.68-.078.168-.21.432-.325.572-.516.634-.844 1.4-1.102 2.18-.088.266-.17.535-.246.808-.415 1.5-.53 3.076-.23 4.603.22 1.116.63 2.193 1.253 3.14.07.1.143.197.22.293l.113.14.045.05.022.022c.28.31.577.59.89.84.05.04.1.08.15.118l.1.077c1.3 1.002 2.924 1.503 4.548 1.503s3.248-.5 4.548-1.503l.1-.077c.05-.038.1-.078.15-.118.313-.25.61-.53.89-.84l.022-.022.045-.05.112-.14c.077-.096.15-.193.22-.293.623-.947 1.033-2.024 1.253-3.14.3-1.527.185-3.103-.23-4.603-.076-.273-.158-.542-.246-.808-.258-.78-.586-1.546-1.102-2.18z" />
-    </svg>
-);
-
-const skills = [
-    { name: "REACT", icon: Code2, color: "text-blue-400" },
-    { name: "NODE.JS", icon: NodeJsIcon, color: "text-green-500" },
-    { name: "EXPRESS.JS", icon: ExpressIcon, color: "text-zinc-200" },
-    { name: "MONGODB", icon: MongoDBIcon, color: "text-green-600" },
-    { name: "TAILWIND CSS", icon: Wind, color: "text-cyan-400" },
-    { name: "JAVASCRIPT", icon: Cpu, color: "text-yellow-400" },
-    { name: "HTML5", icon: Globe, color: "text-orange-500" },
-    { name: "CSS3", icon: Layers, color: "text-blue-500" },
-    { name: "GIT", icon: GitBranch, color: "text-orange-600" },
-    { name: "GITHUB", icon: Github, color: "text-zinc-100" },
-    { name: "LINUX", icon: Monitor, color: "text-yellow-500" },
-    { name: "JAVA", icon: Coffee, color: "text-red-500" },
-    { name: "PYTHON", icon: Box, color: "text-blue-500" },
-    { name: "MYSQL", icon: Database, color: "text-blue-400" },
-    { name: "POSTMAN", icon: Search, color: "text-orange-400" },
-];
-
-const floatingIcons = [
-    { Icon: Code, color: "text-brand-purple/20", x: "10%", y: "20%", size: 100 },
-    { Icon: Database, color: "text-brand-blue/20", x: "85%", y: "15%", size: 120 },
-    { Icon: Server, color: "text-green-400/20", x: "5%", y: "70%", size: 90 },
-    { Icon: Mobile, color: "text-pink-400/20", x: "90%", y: "75%", size: 110 },
+const skillStack = [
+    { name: "Node.js", Icon: TechLogos.Nodejs, cat: "Backend Runtime" },
+    { name: "Next.js", Icon: TechLogos.Nextjs, cat: "FullStack Framework" },
+    { name: "React", Icon: TechLogos.React, cat: "Frontend UI" },
+    { name: "MongoDB", Icon: TechLogos.MongoDB, cat: "NoSQL Database" },
+    { name: "Express", Icon: TechLogos.Express, cat: "Server Framework" },
+    { name: "Tailwind", Icon: TechLogos.Tailwind, cat: "Styling Utility" },
+    { name: "Java", Icon: TechLogos.Java, cat: "Core Enterprise" },
+    { name: "Python", Icon: TechLogos.Python, cat: "Logic & Scripts" },
+    { name: "TypeScript", Icon: TechLogos.TypeScript, cat: "Static Typing" },
+    { name: "JavaScript", Icon: TechLogos.JavaScript, cat: "Core Web" },
+    { name: "Postman", Icon: TechLogos.Postman, cat: "API Testing" },
 ];
 
 export default function SkillsPage() {
     const mouseX = useMotionValue(0);
     const mouseY = useMotionValue(0);
+    const containerRef = useRef<HTMLElement>(null);
 
     const springX = useSpring(mouseX, { stiffness: 40, damping: 20 });
     const springY = useSpring(mouseY, { stiffness: 40, damping: 20 });
-
-    const rotateX = useTransform(springY, [0, 1000], [2, -2]);
-    const rotateY = useTransform(springX, [0, 1920], [-2, 2]);
 
     useEffect(() => {
         const handleMouseMove = (e: MouseEvent) => {
@@ -84,106 +104,109 @@ export default function SkillsPage() {
     }, [mouseX, mouseY]);
 
     return (
-        <main className="relative min-h-screen pt-32 px-4 pb-20 bg-black overflow-hidden perspective-1000">
-            {/* Cinematic Background (from Home Page) */}
+        <main ref={containerRef} className="relative min-h-screen pt-32 px-4 pb-20 bg-black overflow-hidden perspective-1000">
+            {/* Ultra-High-End Mesh Background */}
             <div className="absolute inset-0 z-0">
                 <motion.div
-                    style={{ x: springX, y: springY, translateX: "-50%", translateY: "-50%" }}
-                    className="absolute w-[800px] h-[800px] bg-brand-purple/10 rounded-full blur-[120px] mix-blend-screen pointer-events-none"
+                    style={{
+                        x: springX,
+                        y: springY,
+                        translateX: "-50%",
+                        translateY: "-50%"
+                    }}
+                    className="absolute w-[1000px] h-[1000px] bg-emerald-500/5 rounded-full blur-[150px] mix-blend-screen pointer-events-none"
                 />
-                <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-brand-blue/10 rounded-full blur-[150px] animate-float opacity-50" />
-                <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-brand-purple/10 rounded-full blur-[150px] animate-float opacity-50 [animation-delay:2s]" />
+                <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_50%_50%,rgba(16,185,129,0.05),transparent_70%)]" />
             </div>
 
-            {/* Grain Overlay */}
-            <div className="absolute inset-0 pointer-events-none bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.03] mix-blend-overlay z-1" />
-
-            {/* Floating Tech Arsenal (Movie Method) */}
-            {floatingIcons.map(({ Icon, color, x, y, size }, index) => (
-                <motion.div
-                    key={index}
-                    initial={{ opacity: 0, scale: 0 }}
-                    animate={{ opacity: 0.3, scale: 1 }}
-                    style={{
-                        left: x,
-                        top: y,
-                        rotateX,
-                        rotateY,
-                    }}
-                    transition={{
-                        duration: 2,
-                        delay: 0.5 + index * 0.2,
-                        type: "spring"
-                    }}
-                    className={`absolute hidden md:block ${color} pointer-events-none -z-10`}
-                >
-                    <Icon size={size} className="animate-float" strokeWidth={0.5} />
-                </motion.div>
-            ))}
+            {/* Grain & Grid Overlay */}
+            <div className="absolute inset-0 pointer-events-none bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.02] mix-blend-overlay z-1" />
+            <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)] pointer-events-none" />
 
             <div className="relative z-10 max-w-7xl mx-auto">
+                {/* Header Section */}
                 <motion.div
-                    initial={{ opacity: 0, y: -20 }}
+                    initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="text-center mb-20"
+                    transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+                    className="text-center mb-24"
                 >
-                    <h1 className="text-5xl md:text-8xl font-black tracking-tighter mb-4 text-white uppercase leading-none">
-                        TECHNICAL <span className="text-brand-purple">ARSENAL</span>
+                    <motion.div
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ delay: 0.2 }}
+                        className="inline-flex items-center gap-3 px-4 py-1.5 rounded-full bg-emerald-500/5 border border-emerald-500/10 text-emerald-500 font-black text-[10px] uppercase tracking-[0.4em] mb-8 backdrop-blur-3xl"
+                    >
+                        <Sparkles size={12} className="animate-pulse" /> Engineering Excellence
+                    </motion.div>
+
+                    <h1 className="text-7xl md:text-[10rem] font-black tracking-tighter mb-8 text-white leading-[0.8] mix-blend-difference">
+                        TECH <span className="bg-clip-text text-transparent bg-linear-to-b from-emerald-400 to-emerald-800">STACK</span>
                     </h1>
-                    <p className="text-zinc-500 text-lg md:text-xl max-w-2xl mx-auto font-medium tracking-tight">
-                        Powering high-end digital solutions with industry-standard technologies and meticulous precision.
+
+                    <p className="text-zinc-500 text-xl md:text-2xl max-w-3xl mx-auto font-medium tracking-tight leading-relaxed">
+                        A curated selection of industry-standard technologies I master to build <span className="text-white">robust, scalable, and visually immaculate</span> platforms.
                     </p>
                 </motion.div>
 
-                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
-                    {skills.map((skill, index) => (
+                {/* The Floating Grid */}
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {skillStack.map((skill, index) => (
                         <motion.div
                             key={index}
-                            initial={{ opacity: 0, y: 30 }}
+                            initial={{ opacity: 0, y: 40 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
-                            transition={{ delay: index * 0.05, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-                            whileHover={{
-                                y: -12,
-                                scale: 1.05,
-                                transition: { duration: 0.3, ease: "easeOut" }
+                            transition={{
+                                delay: index * 0.08,
+                                duration: 1.2,
+                                ease: [0.16, 1, 0.3, 1]
                             }}
+                            whileHover={{ y: -10 }}
                             className="group relative"
                         >
-                            <GlassCard className="h-44 flex flex-col items-center justify-center p-6 bg-white/5 border-white/10 hover:border-brand-purple/50 transition-all duration-500 backdrop-blur-3xl">
-                                <div className={`mb-4 ${skill.color} group-hover:scale-125 group-hover:drop-shadow-[0_0_15px_rgba(var(--brand-purple-rgb),0.5)] transition-all duration-500`}>
-                                    {(() => {
-                                        const Icon = skill.icon;
-                                        return <Icon size={40} strokeWidth={1} />;
-                                    })()}
+                            <div className="relative h-full flex items-center gap-8 p-8 bg-[#030303] rounded-[2rem] border border-white/5 transition-all duration-700 hover:border-emerald-500/30 hover:bg-[#070707] overflow-hidden">
+                                {/* Icon Container with Glow */}
+                                <div className="relative z-10 shrink-0 p-5 bg-white/5 rounded-2xl group-hover:bg-emerald-500/10 transition-colors duration-500">
+                                    <skill.Icon />
+                                    <div className="absolute inset-0 blur-xl bg-emerald-500/0 group-hover:bg-emerald-500/20 transition-all duration-500 -z-10" />
                                 </div>
-                                <span className="text-[10px] font-black tracking-[0.3em] text-zinc-500 group-hover:text-white transition-all duration-500 uppercase">
-                                    {skill.name}
-                                </span>
 
-                                {/* Deep Ambient Glow */}
-                                <div className="absolute inset-0 bg-brand-purple/5 opacity-0 group-hover:opacity-100 transition-all duration-500 rounded-[inherit] pointer-events-none" />
-                            </GlassCard>
+                                {/* Text Content */}
+                                <div className="relative z-10 flex flex-col">
+                                    <span className="text-[10px] font-black text-emerald-500/40 tracking-[0.3em] uppercase mb-1.5 group-hover:text-emerald-500/80 transition-colors">
+                                        {skill.cat}
+                                    </span>
+                                    <h3 className="text-2xl font-black text-white tracking-tighter leading-none group-hover:translate-x-1 transition-transform duration-500">
+                                        {skill.name}
+                                    </h3>
+                                </div>
 
-                            {/* Animated Underline */}
-                            <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-0 h-[2px] bg-linear-to-r from-brand-purple to-brand-blue group-hover:w-2/3 transition-all duration-500 ease-out" />
+                                {/* Interactive Background Glow */}
+                                <div className="absolute inset-0 bg-linear-to-br from-emerald-500/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
+                            </div>
                         </motion.div>
                     ))}
                 </div>
 
+                {/* Footer Section */}
                 <motion.div
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    whileInView={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 1 }}
-                    className="mt-24 text-center"
+                    initial={{ opacity: 0 }}
+                    whileInView={{ opacity: 1 }}
+                    className="mt-40 pt-20 border-t border-white/5 flex flex-col md:flex-row items-center justify-between gap-12"
                 >
-                    <GlassCard className="inline-block p-12 bg-linear-to-b from-white/5 to-transparent border-brand-purple/20 backdrop-blur-2xl">
-                        <h2 className="text-4xl font-black mb-6 text-white tracking-tighter">THE MERN STACK EXPERTISE</h2>
-                        <p className="text-zinc-400 max-w-xl mx-auto text-lg leading-relaxed font-medium">
-                            Architecting <span className="text-brand-blue">scalable foundations</span> using MongoDB, Express, React, and Node.js.
-                            My approach combines robust backend logic with immaculate frontend aesthetics.
+                    <div className="flex-1 max-w-xl text-center md:text-left">
+                        <h2 className="text-4xl font-black text-white tracking-tighter mb-6">MERN STACK EXPERTISE</h2>
+                        <p className="text-zinc-500 text-lg leading-relaxed font-medium">
+                            Architecting seamless full-stack experiences by bridging robust backend logic with immaculate frontend aesthetics. My workflow emphasizes <span className="text-emerald-500">clean code</span> and <span className="text-emerald-500">unparalleled performance</span>.
                         </p>
-                    </GlassCard>
+                    </div>
+
+                    <div className="flex gap-4 p-2 bg-white/5 rounded-3xl border border-white/10 backdrop-blur-2xl">
+                        {[1, 2, 3].map((_, i) => (
+                            <div key={i} className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" style={{ animationDelay: `${i * 0.2}s` }} />
+                        ))}
+                    </div>
                 </motion.div>
             </div>
         </main>

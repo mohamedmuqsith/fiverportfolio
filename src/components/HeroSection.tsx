@@ -2,9 +2,15 @@
 
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import { useEffect, useState, useRef } from "react";
-import { ArrowRight, Code, Database, Server, Smartphone } from "lucide-react";
+import { ArrowRight, Code, Database, Server, Smartphone, Github, Linkedin, Instagram } from "lucide-react";
 import Link from "next/link";
 import PortfolioImage from "./PortfolioImage";
+
+const socialLinks = [
+    { name: "GitHub", Icon: Github, href: "https://github.com/mohamedmuqsith", color: "hover:text-white" },
+    { name: "LinkedIn", Icon: Linkedin, href: "https://www.linkedin.com/in/m-f-m-mukshith/", color: "hover:text-blue-500" },
+    { name: "Instagram", Icon: Instagram, href: "https://www.instagram.com/muqsithmalli6/", color: "hover:text-pink-500" },
+];
 
 const icons = [
     { Icon: Code, color: "text-brand-purple", x: -150, y: -100 },
@@ -141,6 +147,23 @@ export default function HeroSection() {
                                 Get Resume <ArrowRight size={20} className="rotate-90" />
                             </a>
                         </motion.div>
+                    </div>
+
+                    {/* Social Links */}
+                    <div className="flex gap-8 mt-12 justify-center lg:justify-start">
+                        {socialLinks.map((social) => (
+                            <motion.a
+                                key={social.name}
+                                href={social.href}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                whileHover={{ y: -5, scale: 1.2 }}
+                                className={`text-zinc-500 transition-all duration-300 ${social.color}`}
+                                title={social.name}
+                            >
+                                <social.Icon size={24} strokeWidth={1.5} />
+                            </motion.a>
+                        ))}
                     </div>
                 </motion.div>
 

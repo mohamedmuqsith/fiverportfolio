@@ -62,6 +62,11 @@ body {
   transition: background-color 0.5s ease, color 0.5s ease;
   position: relative;
   overflow-x: hidden;
+  cursor: none;
+}
+
+* {
+  cursor: none !important;
 }
 
 body::before {
