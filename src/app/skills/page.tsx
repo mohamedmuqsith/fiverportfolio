@@ -114,9 +114,9 @@ export default function SkillsPage() {
                         translateX: "-50%",
                         translateY: "-50%"
                     }}
-                    className="absolute w-[1000px] h-[1000px] bg-emerald-500/5 rounded-full blur-[150px] mix-blend-screen pointer-events-none"
+                    className="absolute w-[1000px] h-[1000px] bg-brand-purple/5 rounded-full blur-[150px] mix-blend-screen pointer-events-none"
                 />
-                <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_50%_50%,rgba(16,185,129,0.05),transparent_70%)]" />
+                <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_50%_50%,rgba(168,85,247,0.05),transparent_70%)]" />
             </div>
 
             {/* Grain & Grid Overlay */}
@@ -135,13 +135,13 @@ export default function SkillsPage() {
                         initial={{ opacity: 0, scale: 0.9 }}
                         animate={{ opacity: 1, scale: 1 }}
                         transition={{ delay: 0.2 }}
-                        className="inline-flex items-center gap-3 px-4 py-1.5 rounded-full bg-emerald-500/5 border border-emerald-500/10 text-emerald-500 font-black text-[10px] uppercase tracking-[0.4em] mb-8 backdrop-blur-3xl"
+                        className="inline-flex items-center gap-3 px-4 py-1.5 rounded-full bg-brand-purple/5 border border-brand-purple/10 text-brand-purple font-black text-[10px] uppercase tracking-[0.4em] mb-8 backdrop-blur-3xl"
                     >
                         <Sparkles size={12} className="animate-pulse" /> Engineering Excellence
                     </motion.div>
 
                     <h1 className="text-7xl md:text-[10rem] font-black tracking-tighter mb-8 text-white leading-[0.8] mix-blend-difference">
-                        TECH <span className="bg-clip-text text-transparent bg-linear-to-b from-emerald-400 to-emerald-800">STACK</span>
+                        TECH <span className="bg-clip-text text-transparent bg-linear-to-b from-brand-purple to-brand-blue">STACK</span>
                     </h1>
 
                     <p className="text-zinc-500 text-xl md:text-2xl max-w-3xl mx-auto font-medium tracking-tight leading-relaxed">
@@ -165,16 +165,16 @@ export default function SkillsPage() {
                             whileHover={{ y: -10 }}
                             className="group relative"
                         >
-                            <div className="relative h-full flex items-center gap-8 p-8 bg-[#030303] rounded-[2rem] border border-white/5 transition-all duration-700 hover:border-emerald-500/30 hover:bg-[#070707] overflow-hidden">
+                            <div className="relative h-full flex items-center gap-8 p-8 bg-[#030303] rounded-[2rem] border border-white/5 transition-all duration-700 hover:border-brand-purple/30 hover:bg-[#070707] overflow-hidden">
                                 {/* Icon Container with Glow */}
-                                <div className="relative z-10 shrink-0 p-5 bg-white/5 rounded-2xl group-hover:bg-emerald-500/10 transition-colors duration-500">
+                                <div className="relative z-10 shrink-0 p-5 bg-white/5 rounded-2xl group-hover:bg-brand-purple/10 transition-colors duration-500">
                                     <skill.Icon />
-                                    <div className="absolute inset-0 blur-xl bg-emerald-500/0 group-hover:bg-emerald-500/20 transition-all duration-500 -z-10" />
+                                    <div className="absolute inset-0 blur-xl bg-brand-purple/0 group-hover:bg-brand-purple/20 transition-all duration-500 -z-10" />
                                 </div>
 
                                 {/* Text Content */}
                                 <div className="relative z-10 flex flex-col">
-                                    <span className="text-[10px] font-black text-emerald-500/40 tracking-[0.3em] uppercase mb-1.5 group-hover:text-emerald-500/80 transition-colors">
+                                    <span className="text-[10px] font-black text-brand-purple/40 tracking-[0.3em] uppercase mb-1.5 group-hover:text-brand-purple/80 transition-colors">
                                         {skill.cat}
                                     </span>
                                     <h3 className="text-2xl font-black text-white tracking-tighter leading-none group-hover:translate-x-1 transition-transform duration-500">
@@ -183,7 +183,7 @@ export default function SkillsPage() {
                                 </div>
 
                                 {/* Interactive Background Glow */}
-                                <div className="absolute inset-0 bg-linear-to-br from-emerald-500/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
+                                <div className="absolute inset-0 bg-linear-to-br from-brand-purple/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
                             </div>
                         </motion.div>
                     ))}
@@ -198,13 +198,13 @@ export default function SkillsPage() {
                     <div className="flex-1 max-w-xl text-center md:text-left">
                         <h2 className="text-4xl font-black text-white tracking-tighter mb-6">MERN STACK EXPERTISE</h2>
                         <p className="text-zinc-500 text-lg leading-relaxed font-medium">
-                            Architecting seamless full-stack experiences by bridging robust backend logic with immaculate frontend aesthetics. My workflow emphasizes <span className="text-emerald-500">clean code</span> and <span className="text-emerald-500">unparalleled performance</span>.
+                            Architecting seamless full-stack experiences by bridging robust backend logic with immaculate frontend aesthetics. My workflow emphasizes <span className="text-brand-purple">clean code</span> and <span className="text-brand-purple">unparalleled performance</span>.
                         </p>
                     </div>
 
                     <div className="flex gap-4 p-2 bg-white/5 rounded-3xl border border-white/10 backdrop-blur-2xl">
                         {[1, 2, 3].map((_, i) => (
-                            <div key={i} className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" style={{ animationDelay: `${i * 0.2}s` }} />
+                            <div key={i} className="w-2.5 h-2.5 rounded-full bg-brand-purple animate-pulse" style={{ animationDelay: `${i * 0.2}s` }} />
                         ))}
                     </div>
                 </motion.div>

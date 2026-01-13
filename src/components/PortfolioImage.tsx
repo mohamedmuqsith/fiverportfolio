@@ -59,6 +59,7 @@ export default function PortfolioImage() {
                     src="/forme.jpeg"
                     alt="Portfolio Image"
                     fill
+                    sizes="(max-width: 768px) 100vw, 400px"
                     className="object-cover opacity-90 group-hover:scale-110 transition-transform duration-700 ease-out"
                     priority
                 />

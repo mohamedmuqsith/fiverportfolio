@@ -1,21 +1,34 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { motion, useSpring, useMotionValue } from "framer-motion";
+import { motion, useSpring, useMotionValue, AnimatePresence } from "framer-motion";
 
 export default function CustomCursor() {
     const [isHovered, setIsHovered] = useState(false);
+    const [isTouchDevice, setIsTouchDevice] = useState(false);
+    const [isPointerVisible, setIsPointerVisible] = useState(true);
+
     const cursorX = useMotionValue(-100);
     const cursorY = useMotionValue(-100);
 
-    const springConfig = { damping: 30, stiffness: 300 };
+    // Ultra-smooth spring configs
+    const springConfig = { damping: 40, stiffness: 450, mass: 0.5 };
+    const trailingConfig = { damping: 25, stiffness: 200, mass: 0.8 };
+
     const cursorXSpring = useSpring(cursorX, springConfig);
     const cursorYSpring = useSpring(cursorY, springConfig);
 
+    const trailingXSpring = useSpring(cursorX, trailingConfig);
+    const trailingYSpring = useSpring(cursorY, trailingConfig);
+
     useEffect(() => {
+        // Detect touch device
+        setIsTouchDevice('ontouchstart' in window || navigator.maxTouchPoints > 0);
+
         const moveCursor = (e: MouseEvent) => {
             cursorX.set(e.clientX);
             cursorY.set(e.clientY);
+            if (!isPointerVisible) setIsPointerVisible(true);
         };
 
         const handleHover = (e: MouseEvent) => {
@@ -31,90 +44,98 @@ export default function CustomCursor() {
             setIsHovered(!!isSelectable);
         };
 
+        const handleTouch = (e: TouchEvent) => {
+            if (e.touches.length > 0) {
+                cursorX.set(e.touches[0].clientX);
+                cursorY.set(e.touches[0].clientY);
+            }
+        };
+
         window.addEventListener("mousemove", moveCursor);
         window.addEventListener("mouseover", handleHover);
+        window.addEventListener("touchstart", handleTouch);
+        window.addEventListener("touchmove", handleTouch);
 
         return () => {
             window.removeEventListener("mousemove", moveCursor);
             window.removeEventListener("mouseover", handleHover);
+            window.removeEventListener("touchstart", handleTouch);
+            window.removeEventListener("touchmove", handleTouch);
         };
-    }, [cursorX, cursorY]);
+    }, [cursorX, cursorY, isPointerVisible]);
 
     return (
-        <>
-            {/* Central Point with Round Shape Animation */}
-            <motion.div
-                className="fixed top-0 left-0 w-2 h-2 bg-white rounded-full pointer-events-none z-9999 mix-blend-difference"
-                style={{
-                    x: cursorXSpring,
-                    y: cursorYSpring,
-                    translateX: "-50%",
-                    translateY: "-50%",
-                }}
-                animate={{
-                    scale: isHovered ? 4 : 1,
-                    boxShadow: isHovered
-                        ? "0 0 15px 5px rgba(255, 255, 255, 0.4)"
-                        : "0 0 0px 0px rgba(255, 255, 255, 0)",
-                }}
-                transition={{
-                    type: "spring",
-                    stiffness: 250,
-                    damping: 20,
-                }}
-            />
+        <AnimatePresence>
+            {!isTouchDevice && isPointerVisible && (
+                <>
+                    {/* Central Point - Ultra Smooth */}
+                    <motion.div
+                        className="fixed top-0 left-0 w-1.5 h-1.5 bg-white rounded-full pointer-events-none z-9999 mix-blend-difference"
+                        style={{
+                            x: cursorXSpring,
+                            y: cursorYSpring,
+                            translateX: "-50%",
+                            translateY: "-50%",
+                        }}
+                        animate={{
+                            scale: isHovered ? 6 : 1,
+                        }}
+                    />
 
-            {/* Trailing Outer Circle */}
-            <motion.div
-                className="fixed top-0 left-0 w-8 h-8 border border-white/20 rounded-full pointer-events-none z-9998"
-                style={{
-                    x: cursorXSpring,
-                    y: cursorYSpring,
-                    translateX: "-50%",
-                    translateY: "-50%",
-                }}
-                animate={{
-                    scale: isHovered ? 1.5 : 1,
-                    opacity: isHovered ? 0 : 1,
-                    borderWidth: isHovered ? "1px" : "1.5px",
-                }}
-                transition={{ duration: 0.3 }}
-            />
+                    {/* Fluid Trailing Ring */}
+                    <motion.div
+                        className="fixed top-0 left-0 w-8 h-8 border border-white/20 rounded-full pointer-events-none z-9998"
+                        style={{
+                            x: trailingXSpring,
+                            y: trailingYSpring,
+                            translateX: "-50%",
+                            translateY: "-50%",
+                        }}
+                        animate={{
+                            scale: isHovered ? 2.5 : 1,
+                            opacity: isHovered ? 0 : 1,
+                        }}
+                    />
 
-            {/* Pulse / Breathe Effect */}
-            <motion.div
-                className="fixed top-0 left-0 w-4 h-4 bg-white/10 rounded-full pointer-events-none z-9998 mix-blend-difference"
-                style={{
-                    x: cursorXSpring,
-                    y: cursorYSpring,
-                    translateX: "-50%",
-                    translateY: "-50%",
-                }}
-                animate={{
-                    scale: [1, 1.5, 1],
-                    opacity: [0.1, 0.3, 0.1],
-                }}
-                transition={{
-                    duration: 2,
-                    repeat: Infinity,
-                    ease: "easeInOut"
-                }}
-            />
+                    {/* Dynamic Ambient Glow */}
+                    <motion.div
+                        className="fixed top-0 left-0 w-24 h-24 bg-brand-purple/15 rounded-full blur-3xl pointer-events-none z-9997"
+                        style={{
+                            x: cursorXSpring,
+                            y: cursorYSpring,
+                            translateX: "-50%",
+                            translateY: "-50%",
+                        }}
+                        animate={{
+                            scale: isHovered ? 2 : 1,
+                            opacity: isHovered ? 0.6 : 0,
+                        }}
+                    />
+                </>
+            )}
 
-            {/* Decorative Blur Glow */}
-            <motion.div
-                className="fixed top-0 left-0 w-16 h-16 bg-brand-purple/10 rounded-full blur-2xl pointer-events-none z-9997"
-                style={{
-                    x: cursorXSpring,
-                    y: cursorYSpring,
-                    translateX: "-50%",
-                    translateY: "-50%",
-                }}
-                animate={{
-                    scale: isHovered ? 2.5 : 1,
-                    opacity: isHovered ? 0.4 : 0,
-                }}
-            />
-        </>
+            {/* Mobile Touch Ripple / Glow */}
+            {isTouchDevice && (
+                <motion.div
+                    className="fixed top-0 left-0 w-20 h-20 bg-brand-purple/10 rounded-full blur-2xl pointer-events-none z-9997"
+                    style={{
+                        x: cursorXSpring,
+                        y: cursorYSpring,
+                        translateX: "-50%",
+                        translateY: "-50%",
+                    }}
+                    initial={{ opacity: 0 }}
+                    animate={{
+                        opacity: [0, 0.4, 0],
+                        scale: [0.8, 1.2, 0.8]
+                    }}
+                    transition={{
+                        duration: 3,
+                        repeat: Infinity,
+                        ease: "easeInOut"
+                    }}
+                />
+            )}
+        </AnimatePresence>
     );
 }

@@ -247,7 +247,7 @@ export default function AboutPage() {
                                 }}
                                 className="group relative"
                             >
-                                <div className="relative h-full flex flex-col bg-[#050505] rounded-[2.5rem] overflow-hidden border border-white/5 transition-all duration-700 hover:border-emerald-500/20 hover:shadow-[0_40px_80px_-20px_rgba(0,0,0,0.8)]">
+                                <div className="relative h-full flex flex-col bg-[#050505] rounded-[2.5rem] overflow-hidden border border-white/5 transition-all duration-700 hover:border-brand-purple/20 hover:shadow-[0_40px_80px_-20px_rgba(0,0,0,0.8)]">
                                     {/* Image Section */}
                                     <div className="relative aspect-16/10 overflow-hidden">
                                         <img
@@ -258,7 +258,7 @@ export default function AboutPage() {
                                         <div className="absolute inset-0 bg-linear-to-b from-transparent via-transparent to-[#050505]" />
 
                                         {/* Year Badge */}
-                                        <div className="absolute top-6 right-6 px-4 py-1.5 rounded-full bg-emerald-500 text-black font-black text-xs tracking-widest shadow-lg">
+                                        <div className="absolute top-6 right-6 px-4 py-1.5 rounded-full bg-brand-purple text-white font-black text-xs tracking-widest shadow-lg">
                                             {cert.year}
                                         </div>
                                     </div>
@@ -267,16 +267,16 @@ export default function AboutPage() {
                                     <div className="flex-1 p-8 pt-4 flex flex-col">
                                         <div className="flex items-start justify-between mb-6">
                                             <div>
-                                                <span className="text-[10px] font-black tracking-[0.3em] text-emerald-500/80 uppercase mb-2 block">
+                                                <span className="text-[10px] font-black tracking-[0.3em] text-brand-purple/80 uppercase mb-2 block">
                                                     Professional Credential
                                                 </span>
-                                                <h3 className="text-2xl md:text-3xl font-black text-white tracking-tighter leading-tight group-hover:text-emerald-400 transition-colors duration-500">
+                                                <h3 className="text-2xl md:text-3xl font-black text-white tracking-tighter leading-tight group-hover:text-brand-purple transition-colors duration-500">
                                                     {cert.title}
                                                 </h3>
                                             </div>
 
-                                            <div className="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-emerald-500 transition-all duration-500 -mt-2">
-                                                <ArrowRight size={20} className="text-white group-hover:text-black -rotate-45" />
+                                            <div className="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-brand-purple transition-all duration-500 -mt-2">
+                                                <ArrowRight size={20} className="text-white group-hover:text-white -rotate-45" />
                                             </div>
                                         </div>
 

@@ -134,7 +134,7 @@ export default function HeroSection() {
                         </motion.div>
 
                         <motion.div
-                            whileHover={{ scale: 1.02, backgroundColor: "rgba(var(--foreground), 0.05)" }}
+                            whileHover={{ scale: 1.02, backgroundColor: "rgba(255, 255, 255, 0.05)" }}
                             whileTap={{ scale: 0.98 }}
                             className="rounded-full overflow-hidden"
                         >
