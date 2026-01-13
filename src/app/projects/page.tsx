@@ -82,7 +82,7 @@ export default function ProjectsPage() {
                     <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-brand-purple font-black text-[10px] uppercase tracking-[0.4em] mb-8 backdrop-blur-md">
                         <Sparkles size={12} className="animate-pulse" /> Selected Works
                     </div>
-                    <h1 className="text-7xl md:text-[10rem] font-black tracking-tighter mb-8 text-white leading-[0.8] mix-blend-difference">
+                    <h1 className="text-4xl sm:text-7xl md:text-[10rem] font-black tracking-tighter mb-8 text-white leading-[0.8] mix-blend-difference">
                         PROJECT <span className="bg-clip-text text-transparent bg-linear-to-b from-brand-purple to-brand-blue">VOYAGE</span>
                     </h1>
                     <p className="text-zinc-500 text-xl md:text-2xl max-w-3xl mx-auto font-medium tracking-tight">
@@ -104,11 +104,11 @@ export default function ProjectsPage() {
                                 <img
                                     src={project.image}
                                     alt={project.title}
-                                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000 ease-out grayscale group-hover:grayscale-0"
+                                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000 ease-out"
                                 />
-                                <div className="absolute inset-0 bg-linear-to-b from-transparent via-black/20 to-black/90" />
+                                <div className="absolute inset-0 bg-linear-to-b from-transparent via-transparent to-black/90" />
 
-                                <div className="absolute inset-0 p-10 flex flex-col justify-end translate-y-4 group-hover:translate-y-0 transition-transform duration-700">
+                                <div className="absolute inset-0 p-6 md:p-10 flex flex-col justify-end translate-y-0 md:translate-y-4 md:group-hover:translate-y-0 transition-transform duration-700">
                                     <div className="flex flex-wrap gap-3 mb-6">
                                         {project.stack.map((tech) => (
                                             <span key={tech} className="px-3 py-1 bg-white/10 backdrop-blur-md rounded-full text-[10px] font-black tracking-widest uppercase text-white/80 border border-white/5">
@@ -116,18 +116,18 @@ export default function ProjectsPage() {
                                             </span>
                                         ))}
                                     </div>
-                                    <h3 className="text-3xl md:text-4xl font-black text-white tracking-tighter leading-none mb-4 group-hover:text-brand-purple transition-colors">
+                                    <h3 className="text-xl md:text-3xl lg:text-4xl font-black text-white tracking-tighter leading-none mb-4 group-hover:text-brand-purple transition-colors">
                                         {project.title}
                                     </h3>
-                                    <p className="text-zinc-400 text-lg font-medium leading-relaxed tracking-tight max-w-md opacity-0 group-hover:opacity-100 transition-opacity duration-700">
+                                    <p className="text-zinc-400 text-sm md:text-lg font-medium leading-relaxed tracking-tight max-w-md opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-700">
                                         {project.desc}
                                     </p>
 
-                                    <div className="flex gap-8 mt-8 items-center opacity-0 group-hover:opacity-100 transition-all duration-700 delay-100">
-                                        <a href={project.live} target="_blank" rel="noopener noreferrer" className="text-white font-black text-xs tracking-widest uppercase flex items-center gap-2 hover:text-brand-purple transition-colors">
+                                    <div className="flex gap-8 mt-8 items-center opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-all duration-700 delay-100">
+                                        <a href={project.live} target="_blank" rel="noopener noreferrer" className="text-white font-black text-xs tracking-widest uppercase flex items-center gap-2 hover:text-brand-purple transition-colors z-20">
                                             Live Demo <ExternalLink size={14} />
                                         </a>
-                                        <a href={project.github} target="_blank" rel="noopener noreferrer" className="text-white font-black text-xs tracking-widest uppercase flex items-center gap-2 hover:text-brand-purple transition-colors">
+                                        <a href={project.github} target="_blank" rel="noopener noreferrer" className="text-white font-black text-xs tracking-widest uppercase flex items-center gap-2 hover:text-brand-purple transition-colors z-20">
                                             Architecture <Github size={14} />
                                         </a>
                                     </div>
@@ -139,13 +139,13 @@ export default function ProjectsPage() {
 
                 <section id="contact" className="max-w-4xl mx-auto mt-40">
                     <div className="text-center mb-20">
-                        <h2 className="text-5xl md:text-7xl font-black tracking-tighter text-white mb-6">UNLEASH CREATIVITY</h2>
+                        <h2 className="text-3xl sm:text-5xl md:text-7xl font-black tracking-tighter text-white mb-6">UNLEASH CREATIVITY</h2>
                         <p className="text-zinc-500 text-xl font-medium tracking-tight">Currently open for premium freelance opportunities and collaborative excellence.</p>
                     </div>
 
                     <div className="grid md:grid-cols-2 gap-8 items-stretch">
                         <div className="group relative">
-                            <div className="h-full p-10 bg-[#050505] rounded-[2.5rem] border border-white/5 flex flex-col justify-between transition-all duration-700 hover:border-brand-purple/20">
+                            <div className="h-full p-6 md:p-10 bg-[#050505] rounded-[2.5rem] border border-white/5 flex flex-col justify-between transition-all duration-700 hover:border-brand-purple/20">
                                 <div>
                                     <h3 className="text-3xl font-black text-white tracking-tighter mb-4">Direct Sync</h3>
                                     <p className="text-zinc-400 text-lg font-medium leading-relaxed tracking-tight mb-10">
@@ -163,7 +163,7 @@ export default function ProjectsPage() {
                             </div>
                         </div>
 
-                        <div className="p-10 bg-[#050505] rounded-[2.5rem] border border-white/5 transition-all duration-700 hover:border-brand-purple/20">
+                        <div className="p-6 md:p-10 bg-[#050505] rounded-[2.5rem] border border-white/5 transition-all duration-700 hover:border-brand-purple/20">
                             <h3 className="text-3xl font-black text-white tracking-tighter mb-8">Pulse Signal</h3>
                             <form className="space-y-6">
                                 <div className="space-y-4">
