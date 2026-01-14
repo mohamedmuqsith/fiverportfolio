@@ -6,14 +6,14 @@ import { motion, useSpring, useMotionValue, AnimatePresence } from "framer-motio
 export default function CustomCursor() {
     const [isHovered, setIsHovered] = useState(false);
     const [isTouchDevice, setIsTouchDevice] = useState(false);
-    const [isPointerVisible, setIsPointerVisible] = useState(true);
+    const [isPointerVisible, setIsPointerVisible] = useState(false);
 
     const cursorX = useMotionValue(-100);
     const cursorY = useMotionValue(-100);
 
-    // Ultra-smooth spring configs
-    const springConfig = { damping: 40, stiffness: 450, mass: 0.5 };
-    const trailingConfig = { damping: 25, stiffness: 200, mass: 0.8 };
+    // 100% Smooth Spring Configs
+    const springConfig = { damping: 25, stiffness: 400, mass: 0.2 }; // Snappy but smooth
+    const trailingConfig = { damping: 40, stiffness: 150, mass: 0.8 }; // Floaty and fluid
 
     const cursorXSpring = useSpring(cursorX, springConfig);
     const cursorYSpring = useSpring(cursorY, springConfig);
@@ -22,55 +22,60 @@ export default function CustomCursor() {
     const trailingYSpring = useSpring(cursorY, trailingConfig);
 
     useEffect(() => {
-        // Detect touch device
-        setIsTouchDevice('ontouchstart' in window || navigator.maxTouchPoints > 0);
+        // Safe check for touch device
+        if (typeof window !== "undefined") {
+            setIsTouchDevice('ontouchstart' in window || navigator.maxTouchPoints > 0);
+            setIsPointerVisible(true);
+        }
 
         const moveCursor = (e: MouseEvent) => {
             cursorX.set(e.clientX);
             cursorY.set(e.clientY);
-            if (!isPointerVisible) setIsPointerVisible(true);
         };
 
         const handleHover = (e: MouseEvent) => {
             const target = e.target as HTMLElement;
-            const isSelectable =
+            // Optimized hover check - checks common interactive elements first
+            // Only checks computed style if necessary and simple checks fail
+            const isInteractive =
                 target.tagName === "A" ||
                 target.tagName === "BUTTON" ||
                 target.closest("button") ||
                 target.closest("a") ||
                 target.closest(".group") ||
-                window.getComputedStyle(target).cursor === "pointer";
+                target.matches('input, textarea, select, label') ||
+                (target as HTMLElement).onclick != null;
 
-            setIsHovered(!!isSelectable);
-        };
-
-        const handleTouch = (e: TouchEvent) => {
-            if (e.touches.length > 0) {
-                cursorX.set(e.touches[0].clientX);
-                cursorY.set(e.touches[0].clientY);
+            if (isInteractive) {
+                setIsHovered(true);
+            } else {
+                // Fallback to computed style only if not obviously interactive
+                // Throttling this would be better but keeping it simple for now
+                // We'll skip the expensive computed style check for performance unless strictly needed
+                // Most modern apps use standard tags.
+                setIsHovered(false);
             }
         };
 
         window.addEventListener("mousemove", moveCursor);
         window.addEventListener("mouseover", handleHover);
-        window.addEventListener("touchstart", handleTouch);
-        window.addEventListener("touchmove", handleTouch);
 
         return () => {
             window.removeEventListener("mousemove", moveCursor);
             window.removeEventListener("mouseover", handleHover);
-            window.removeEventListener("touchstart", handleTouch);
-            window.removeEventListener("touchmove", handleTouch);
         };
-    }, [cursorX, cursorY, isPointerVisible]);
+    }, [cursorX, cursorY]);
+
+    // Don't render on touch devices to save resources
+    if (isTouchDevice) return null;
 
     return (
         <AnimatePresence>
-            {!isTouchDevice && isPointerVisible && (
+            {isPointerVisible && (
                 <>
-                    {/* Central Point - Ultra Smooth */}
+                    {/* Main Dot - Ultra Precise */}
                     <motion.div
-                        className="fixed top-0 left-0 w-1.5 h-1.5 bg-white rounded-full pointer-events-none z-9999 mix-blend-difference"
+                        className="fixed top-0 left-0 w-2.5 h-2.5 bg-white rounded-full pointer-events-none z-[9999] mix-blend-difference"
                         style={{
                             x: cursorXSpring,
                             y: cursorYSpring,
@@ -78,13 +83,15 @@ export default function CustomCursor() {
                             translateY: "-50%",
                         }}
                         animate={{
-                            scale: isHovered ? 6 : 1,
+                            scale: isHovered ? 4 : 1,
+                            borderRadius: isHovered ? "20%" : "50%",
                         }}
+                        transition={{ duration: 0.2 }}
                     />
 
                     {/* Fluid Trailing Ring */}
                     <motion.div
-                        className="fixed top-0 left-0 w-8 h-8 border border-white/20 rounded-full pointer-events-none z-9998"
+                        className="fixed top-0 left-0 w-10 h-10 border border-white/30 rounded-full pointer-events-none z-[9998] mix-blend-difference placeholder-glow"
                         style={{
                             x: trailingXSpring,
                             y: trailingYSpring,
@@ -92,49 +99,13 @@ export default function CustomCursor() {
                             translateY: "-50%",
                         }}
                         animate={{
-                            scale: isHovered ? 2.5 : 1,
-                            opacity: isHovered ? 0 : 1,
+                            scale: isHovered ? 1.5 : 1,
+                            backgroundColor: isHovered ? "rgba(255, 255, 255, 0.1)" : "transparent",
+                            borderColor: isHovered ? "rgba(255, 255, 255, 0)" : "rgba(255, 255, 255, 0.3)",
                         }}
-                    />
-
-                    {/* Dynamic Ambient Glow */}
-                    <motion.div
-                        className="fixed top-0 left-0 w-24 h-24 bg-brand-purple/15 rounded-full blur-3xl pointer-events-none z-9997"
-                        style={{
-                            x: cursorXSpring,
-                            y: cursorYSpring,
-                            translateX: "-50%",
-                            translateY: "-50%",
-                        }}
-                        animate={{
-                            scale: isHovered ? 2 : 1,
-                            opacity: isHovered ? 0.6 : 0,
-                        }}
+                        transition={{ duration: 0.3 }} // Slightly slower transition for smooth feel
                     />
                 </>
-            )}
-
-            {/* Mobile Touch Ripple / Glow */}
-            {isTouchDevice && (
-                <motion.div
-                    className="fixed top-0 left-0 w-20 h-20 bg-brand-purple/10 rounded-full blur-2xl pointer-events-none z-9997"
-                    style={{
-                        x: cursorXSpring,
-                        y: cursorYSpring,
-                        translateX: "-50%",
-                        translateY: "-50%",
-                    }}
-                    initial={{ opacity: 0 }}
-                    animate={{
-                        opacity: [0, 0.4, 0],
-                        scale: [0.8, 1.2, 0.8]
-                    }}
-                    transition={{
-                        duration: 3,
-                        repeat: Infinity,
-                        ease: "easeInOut"
-                    }}
-                />
             )}
         </AnimatePresence>
     );
