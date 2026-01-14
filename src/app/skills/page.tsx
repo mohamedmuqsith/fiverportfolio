@@ -2,15 +2,10 @@
 
 import { motion } from "framer-motion";
 import {
-    Code2,
-    Database,
     Layout,
     Server,
-    Smartphone,
     Terminal,
     Cpu,
-    Globe,
-    GitBranch,
     Layers,
     Wind,
     Box
@@ -35,7 +30,7 @@ const itemVariants = {
         opacity: 1,
         filter: "blur(0px)",
         transition: {
-            type: "spring",
+            type: "spring" as const,
             stiffness: 50
         }
     }
@@ -90,7 +85,7 @@ export default function SkillsPage() {
                 transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
                 className="text-center mb-20"
             >
-                <h1 className="text-4xl md:text-7xl font-bold tracking-tight mb-6 bg-clip-text text-transparent bg-gradient-to-b from-foreground to-foreground/50">
+                <h1 className="text-4xl md:text-7xl font-bold tracking-tight mb-6 bg-clip-text text-transparent bg-linear-to-b from-foreground to-foreground/50">
                     My Tech Stack
                 </h1>
                 <p className="text-lg md:text-xl text-zinc-500 max-w-2xl mx-auto leading-relaxed">
@@ -111,7 +106,7 @@ export default function SkillsPage() {
                         className="glass-card p-8 rounded-3xl relative overflow-hidden group"
                     >
                         {/* Decorative Background Gradient */}
-                        <div className={`absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity duration-700 pointer-events-none bg-gradient-to-br from-brand-purple via-transparent to-transparent`} />
+                        <div className={`absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity duration-700 pointer-events-none bg-linear-to-br from-brand-purple via-transparent to-transparent`} />
 
                         {/* Category Header */}
                         <motion.div variants={itemVariants} className="flex items-center gap-4 mb-8">

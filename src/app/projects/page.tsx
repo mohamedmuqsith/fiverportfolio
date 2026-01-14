@@ -1,6 +1,6 @@
 "use client";
 
-import GlassCard from "@/components/GlassCard";
+
 import { motion, useMotionValue, useSpring } from "framer-motion";
 import { useEffect, useRef } from "react";
 import { ExternalLink, Github, MessageCircle, Sparkles } from "lucide-react";
